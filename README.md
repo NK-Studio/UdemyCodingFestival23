@@ -12,6 +12,7 @@ Safe Area (https://assetstore.unity.com/packages/tools/gui/safe-area-helper-1304
 NaughtyAttributes (https://assetstore.unity.com/packages/tools/utilities/naughtyattributes-129996)  
 UFolder (https://www.notion.so/UFolder-3a35f586034847fb903593961f9df581?pvs=4)  
 CustomToolbar (https://www.notion.so/a773a51426714179b92bafaa929a67fc?pvs=4)  
+Array Element Title(https://www.notion.so/Array-Element-Title-ec733472d4a44308b54aed8f5acb1300?pvs=4)  
 
 # 라이선스
 이 프로젝트에 사용된 그래픽 리소스는 비상업적 용도으로는 자유롭게 사용 가능하며,  
