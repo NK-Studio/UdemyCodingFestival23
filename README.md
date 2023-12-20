@@ -3,6 +3,7 @@
 
 # 요구  
 그래픽 리소스 (https://drive.google.com/file/d/19VhIiAuOcBk6LepqYv-MuY1ueLnI3_GD/view?usp=sharing)  
+모바일 플러그인 (https://drive.google.com/file/d/15LnFAwYQj9_qV7QR_37YGs-bDBMxTyx_/view?usp=sharing)  
 Unity 2022.3 LTS 이상  
 URP 14  
 Input System  
