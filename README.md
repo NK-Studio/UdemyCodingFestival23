@@ -2,6 +2,7 @@
 탕후루 프로젝트
 
 # 요구  
+그래픽 리소스 (https://drive.google.com/file/d/19VhIiAuOcBk6LepqYv-MuY1ueLnI3_GD/view?usp=sharing)  
 Unity 2022.3 LTS 이상  
 URP 14  
 Input System  
