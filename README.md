@@ -7,6 +7,7 @@ Unity 2022.3 LTS 이상
 URP 14  
 Input System  
 Git (https://git-scm.com/)
+UniRX (https://assetstore.unity.com/packages/tools/integration/unirx-reactive-extensions-for-unity-17276)
 Animation Sequencer (https://github.com/brunomikoski/Animation-Sequencer.git)  
 Safe Area (https://assetstore.unity.com/packages/tools/gui/safe-area-helper-130488)  
 NaughtyAttributes (https://assetstore.unity.com/packages/tools/utilities/naughtyattributes-129996)  
