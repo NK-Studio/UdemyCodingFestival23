@@ -1,4 +1,4 @@
-# UdemyCodingFestival23
+# Udemy Coding Festival23 (탕후루 대작전)
 탕후루 프로젝트
 
 # 요구  
