@@ -1,0 +1,98 @@
+{
+    "name": "Main Input Action",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "9b473c8e-56c0-4652-8a03-a887385bc73c",
+            "actions": [
+                {
+                    "name": "Touch Press",
+                    "type": "Button",
+                    "id": "08d0cea5-1f09-4821-a9e5-d21a91ff0d51",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Touch Position",
+                    "type": "Value",
+                    "id": "57d39423-537d-4a87-a020-5abfb1f504e2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7be6774b-7fb7-479f-9a65-752efbb92f7d",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touchscreen",
+                    "action": "Touch Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34017aa1-0a90-4187-8acb-b8b40d6de364",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touchscreen",
+                    "action": "Touch Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11e34f2c-effc-48d9-b518-522378b54d45",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touchscreen",
+                    "action": "Touch Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "187e6be2-39a6-426f-9b82-28554ac422f8",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touchscreen",
+                    "action": "Touch Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Touchscreen",
+            "bindingGroup": "Touchscreen",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
