@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 [CustomPropertyDrawer(typeof(UnityEvent), true)]
 [CustomPropertyDrawer(typeof(UnityEvent<BaseEventData>), true)]
-public class UnityEventDrawer : PropertyDrawer
+public class ShowEnumArgDrawer : PropertyDrawer
 {
     private readonly Dictionary<string, State> m_States = new Dictionary<string, State>();
 
@@ -186,12 +186,12 @@ public class UnityEventDrawer : PropertyDrawer
             object[] attributes = null;
 
             if (method != null)
-                attributes = method.GetCustomAttributes(typeof(EnumEventAttribute), true);
+                attributes = method.GetCustomAttributes(typeof(ShowEnumArgAttribute), true);
 
             if (attributes != null && attributes.Length > 0)
             {
                 // Make an enum popup
-                Type enumType = ((EnumEventAttribute)attributes[0]).EnumType;
+                Type enumType = ((ShowEnumArgAttribute)attributes[0]).EnumType;
                 Enum value = (Enum)Enum.ToObject(enumType, propertyRelative6.intValue);
                 propertyRelative6.intValue = Convert.ToInt32(EditorGUI.EnumPopup(position3, value));
             }

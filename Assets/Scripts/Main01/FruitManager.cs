@@ -80,7 +80,7 @@ public class FruitManager : MonoBehaviour
     /// 지정된 유형의 과일을 생성합니다.
     /// </summary>
     /// <param name="fruitType">생성할 과일의 유형입니다.</param>
-    [EnumEvent(typeof(EFruitType))]
+    [ShowEnumArg(typeof(EFruitType))]
     public void Generate(int fruitType)
     {
         Generate((EFruitType)fruitType);
