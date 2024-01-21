@@ -7,12 +7,13 @@
 Unity 2022.3 LTS 이상  
 URP 14  
 Input System  
-Git (https://git-scm.com/) 강의 영상 (https://www.youtube.com/watch?v=ZJ7ATY0d4so&t=2s)
+Git (https://git-scm.com/) 강의 영상 (https://www.youtube.com/watch?v=ZJ7ATY0d4so&t=2s)  
 Toon Shader (https://docs.unity3d.com/Packages/com.unity.toonshader@0.9/manual/index.html)  
-UniRX (https://assetstore.unity.com/packages/tools/integration/unirx-reactive-extensions-for-unity-17276)
+UniRX (https://assetstore.unity.com/packages/tools/integration/unirx-reactive-extensions-for-unity-17276)  
 Show Enum Arg (https://www.notion.so/Unity-Event-Enum-63d42513b99f410cb596dd5303af0d0f?pvs=4)  
-Scene Loader (https://drive.google.com/file/d/1emget4VuV6obvHzrIh2TL_3-PEcixzon/view?usp=sharing)  
-DoTween (https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
+Scene Loader (https://drive.google.com/file/d/1emget4VuV6obvHzrIh2TL_3-PEcixzon/view?usp=sharing)
+Auto Singleton (https://www.notion.so/Auto-Singleton-d5ca1775a66b4570a985b37728d02c96?pvs=4)  
+DoTween (https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)  
 Animation Sequencer (https://github.com/brunomikoski/Animation-Sequencer.git)  
 Safe Area (https://assetstore.unity.com/packages/tools/gui/safe-area-helper-130488)  
 NaughtyAttributes (https://assetstore.unity.com/packages/tools/utilities/naughtyattributes-129996)  
