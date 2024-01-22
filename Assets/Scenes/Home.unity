@@ -473,7 +473,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 605545134}
-  - component: {fileID: 605545135}
   m_Layer: 0
   m_Name: Lighting
   m_TagString: Folder
@@ -497,19 +496,6 @@ Transform:
   - {fileID: 1665440779}
   m_Father: {fileID: 935892460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &605545135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605545133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c190b5f9e63d44aff9e556336bff3a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviour: 1
 --- !u!1 &625142445
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,23 +762,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 653683440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca70f3047ce0a4964b7b070d0e773942, type: 3}
+  m_Script: {fileID: 11500000, guid: 89fc4b73d3bdf43aeac288614f778a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetScene:
-    m_SceneAsset: {fileID: 102900000, guid: 3fc8acdd13e6c734bafef6554d6fdbcd, type: 3}
-    m_IsDirty: 0
-    m_ScenePath: Assets/Scenes/Main 01.unity
-  OnLoadScene:
+  LoadStyle: 0
+  UseAsync: 0
+  editorAutoLoad: 0
+  loadScene:
+    sceneAsset: {fileID: 102900000, guid: 3fc8acdd13e6c734bafef6554d6fdbcd, type: 3}
+    path: Assets/Scenes/Main 01.unity
+  additiveScenes: []
+  SkipMode: 2
+  MinimumLoadingTime: 0
+  DestroyOnCompleted: 0
+  onLoading:
     m_PersistentCalls:
       m_Calls: []
-  OnSceneLoaded:
+  onLoadCompleted:
     m_PersistentCalls:
       m_Calls: []
-  OnSceneActivated:
+  onCompleted:
     m_PersistentCalls:
       m_Calls: []
-  DebugMode: 0
 --- !u!1 &668928644
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +913,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 935892460}
-  - component: {fileID: 935892459}
   m_Layer: 0
   m_Name: Home
   m_TagString: Folder
@@ -930,19 +920,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &935892459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935892458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c190b5f9e63d44aff9e556336bff3a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviour: 1
 --- !u!4 &935892460
 Transform:
   m_ObjectHideFlags: 0
@@ -974,7 +951,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 955859664}
-  - component: {fileID: 955859665}
   m_Layer: 0
   m_Name: Logic
   m_TagString: Folder
@@ -999,19 +975,6 @@ Transform:
   - {fileID: 553908158}
   m_Father: {fileID: 935892460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &955859665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 955859663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c190b5f9e63d44aff9e556336bff3a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviour: 1
 --- !u!1 &958234927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,7 +1312,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 653683443}
         m_TargetAssemblyTypeName: NKStudio.SceneLoader, Assembly-CSharp
-        m_MethodName: ActivateLoadedScene
+        m_MethodName: AllowCompletion
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1701,7 +1664,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1279076259}
-  - component: {fileID: 1279076260}
   m_Layer: 0
   m_Name: UI
   m_TagString: Folder
@@ -1725,19 +1687,6 @@ Transform:
   - {fileID: 1033940016}
   m_Father: {fileID: 935892460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1279076260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279076258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c190b5f9e63d44aff9e556336bff3a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviour: 1
 --- !u!1 &1370125170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2151,6 +2100,10 @@ PrefabInstance:
     - target: {fileID: 119316, guid: 1b116d1d98225c449952c7fe4df59bcc, type: 3}
       propertyPath: m_Name
       value: Misaki_sum_humanoid
+      objectReference: {fileID: 0}
+    - target: {fileID: 119316, guid: 1b116d1d98225c449952c7fe4df59bcc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 448956, guid: 1b116d1d98225c449952c7fe4df59bcc, type: 3}
       propertyPath: m_LocalScale.x

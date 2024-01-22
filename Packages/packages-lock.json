@@ -5,7 +5,40 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "c676b581b39dd1e0f2f0d1e2b765ff616ee4ae35"
+      "hash": "09a9d81de78a99fcabcd7472a9396e90a7a7e581"
+    },
+    "com.domybest.mybox": {
+      "version": "https://github.com/Deadcows/MyBox.git#1.8.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "hash": "f9a7c863fee22b227afe9af52dff9257cbe02094"
+    },
+    "com.nkstudio.eventsystempatch": {
+      "version": "https://github.com/NK-Studio/EventSystem-Patch.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.inputsystem": "1.0.0"
+      },
+      "hash": "963fcff498074d79d7ff1add944da0e0fe6b776f"
+    },
+    "com.nkstudio.scenereference": {
+      "version": "https://github.com/NK-Studio/SceneReference.git#UPM",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6f0e129dd4d621727a2ba0e011d1bbc0da098c35"
+    },
+    "com.nkstudio.usinglton": {
+      "version": "https://github.com/NK-Studio/USingleton.git#UPM",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7c8aa476094bba686cd67e0c2e5f21e548b829dc"
     },
     "com.unity.2d.animation": {
       "version": "9.0.4",
@@ -21,7 +54,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.aseprite": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -101,6 +134,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.arrayelementtitle": {
+      "version": "https://github.com/NK-Studio/Array-Element-Title.git#UPM",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1af8ee18a53e6538eb6fdd474a6688fa7f55891f"
+    },
     "com.unity.burst": {
       "version": "1.8.11",
       "depth": 1,
@@ -153,7 +193,7 @@
         "com.unity.2d.spriteshape": "9.0.2",
         "com.unity.2d.tilemap": "1.0.0",
         "com.unity.2d.tilemap.extras": "3.1.2",
-        "com.unity.2d.aseprite": "1.0.1"
+        "com.unity.2d.aseprite": "1.1.0"
       }
     },
     "com.unity.film-internal-utilities": {
@@ -238,6 +278,13 @@
         "com.unity.render-pipelines.core": "14.0.9"
       }
     },
+    "com.unity.scene-system": {
+      "version": "https://github.com/NK-Studio/SceneSystem.git#UPM",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "56b2f0655815736c3b4c01a1f21952c1d19617eb"
+    },
     "com.unity.searcher": {
       "version": "4.9.2",
       "depth": 2,
@@ -266,7 +313,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.6",
+      "version": "3.0.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -304,6 +351,13 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
+    },
+    "com.unity.visible.enum": {
+      "version": "https://github.com/NK-Studio/Visible-Enum-Attribute.git#UPM",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "225d06bb21e715d49a588f4cee68e81e2191a186"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

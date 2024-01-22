@@ -1,6 +1,6 @@
 using BrunoMikoski.AnimationSequencer;
 using JetBrains.Annotations;
-using NaughtyAttributes;
+using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,16 +8,16 @@ public class MeltedFruit : MonoBehaviour
 {
     public bool SelfTarget = true;
 
-    [ShowIf("ConditionTarget")]
+    [ConditionalField(nameof(SelfTarget), false)]
     public Image Target;
 
     public Sprite Normal;
     public Sprite CoatedFruit;
-    
-    [Header("Audio"), SerializeField]
-    private AudioSource metedSoundSource;
-    
+
+    [Header("Audio"), SerializeField] private AudioSource metedSoundSource;
+
     private float _coatingAmount;
+
     public float CoatingAmount
     {
         get => _coatingAmount;
@@ -30,15 +30,14 @@ public class MeltedFruit : MonoBehaviour
                 SetCoating(true);
         }
     }
-
-    [UsedImplicitly] private bool ConditionTarget => SelfTarget == false;
+    
     private AnimationSequencerController _animationSequencerController;
 
     private void Start()
     {
         // 할당
         _animationSequencerController = GetComponent<AnimationSequencerController>();
-        
+
         if (SelfTarget)
             Target = GetComponent<Image>();
     }
@@ -51,10 +50,10 @@ public class MeltedFruit : MonoBehaviour
     {
         switch (isCoating)
         {
-            case false :
+            case false:
                 Target.sprite = Normal;
                 break;
-            case true :
+            case true:
                 metedSoundSource.Play();
                 Target.sprite = CoatedFruit;
                 break;

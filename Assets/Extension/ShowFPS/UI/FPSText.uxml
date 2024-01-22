@@ -1,3 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Label tabindex="-1" text="FPS : 0 " display-tooltip-when-elided="true" name="FPSText" style="font-size: 101px; margin-left: 25px; margin-top: 25px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; color: rgb(255, 255, 255); -unity-font-style: bold; margin-right: 0; margin-bottom: 0; position: absolute; top: 256px; left: 127px;" />
-</ui:UXML>

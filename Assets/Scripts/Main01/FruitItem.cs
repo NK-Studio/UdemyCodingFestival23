@@ -1,13 +1,11 @@
 using System;
 using Animation;
-using AutoSingleton;
 using BrunoMikoski.AnimationSequencer;
 using Data;
 using NKStudio;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using USingleton;
 
 public enum EFruitType
 {
@@ -21,20 +19,17 @@ public enum EFruitType
 
 public class FruitItem : MonoBehaviour
 {
-    [field: SerializeField] public bool Interection { get; set; } = true;
+    [field: SerializeField]
+    public bool Interection { get; set; } = true;
 
-    [Header("과일 타입")]
-    public EFruitType FruitType;
+    [Header("과일 타입")] public EFruitType FruitType;
 
-    [Header("떨어지는 속도")]
-    public float FallSpeed = 1f;
+    [Header("떨어지는 속도")] public float FallSpeed = 1f;
     public float FallMultiplier = 100f;
 
-    [Header("Audio"), SerializeField]
-    private AudioSource fruitStickIn; 
-    
-    [Header("드래그 시 과일 위치 오프셋")]
-    public Vector3 Offset;
+    [Header("Audio"), SerializeField] private AudioSource fruitStickIn;
+
+    [Header("드래그 시 과일 위치 오프셋")] public Vector3 Offset;
 
     // RectTransform
     private RectTransform _selfRectTransform; // 자신
@@ -71,6 +66,14 @@ public class FruitItem : MonoBehaviour
     private const int kDefaultVibrateTime = 100;
     private const int kDefaultVibrateAmplitude = 100;
 
+
+    private bool _isTouchingStick;
+
+    /// <summary>
+    /// 스틱에 계속 닿고 있는지를 체크합니다.
+    /// </summary>
+    public bool IsTouchingStick;
+    
     private void Awake()
     {
         _mainInputAction = new MainInputAction();
@@ -92,37 +95,18 @@ public class FruitItem : MonoBehaviour
             _distanceCollider.OnEnter.AddListener(OnEnter);
             _distanceCollider.OnExit.AddListener(OnExit);
         }
-
-        // 과일이 스틱 처음 부분에 닿았을 때 처리
-        this.UpdateAsObservable()
-            .ObserveEveryValueChanged(_ => IsTouchingStick)
-            .Where(trigger => trigger)
-            .Subscribe(_ => {
-                // 진동 처리
-                MobileNative.Vibrate(kDefaultVibrateTime, kDefaultVibrateAmplitude);
-
-                // 애니메이션 시퀀스로 인해 뒤틀린 사이즈를 복구 (보안)
-                transform.GetChild(0).localScale = Vector3.one;
-
-                // 애니메이션 재생
-                _animationSequencerController.Play();
-                
-                // 사운드 재생
-                fruitStickIn.Play();
-            })
-            .AddTo(this);
     }
-
+    
     public void Init(InputController inputController, FruitManager fruitManager)
     {
         _fruitManager = fruitManager;
         _fruitManager.HasControlFruit = true;
 
         // 화면 터치에 손을 땟다면,
-        inputController.IsPressing
-            .Where(active => !active)
-            .Subscribe(_ => {
-
+        inputController.OnPressAction += active =>
+        {
+            if (!active)
+            {
                 // 스톱 영역에 대한 허용 처리가 False라면, 더 이상 진행하지 않는다.
                 if (!_activeDownCheck)
                     return;
@@ -139,10 +123,10 @@ public class FruitItem : MonoBehaviour
                     _fruitManager.HasControlFruit = false;
                     Destroy(gameObject);
                 }
-            })
-            .AddTo(this);
+            }
+        };
     }
-    
+
     private void OnEnable()
     {
         _mainInputAction.Enable();
@@ -180,12 +164,37 @@ public class FruitItem : MonoBehaviour
             _rotator.Reverse();
         }
     }
-    
+
     private void Update()
     {
         TriggerTouchingStick();
         Move();
         UpdateStopSystem();
+        ChangeValueByIsTouchingStick();
+    }
+
+    private void ChangeValueByIsTouchingStick()
+    {
+        if (IsTouchingStick != _isTouchingStick)
+        {
+            _isTouchingStick = IsTouchingStick;
+            
+            // 과일이 스틱 처음 부분에 닿았을 때 처리
+            if (_isTouchingStick)
+            {
+                // 진동 처리
+                MobileNative.Vibrate(kDefaultVibrateTime, kDefaultVibrateAmplitude);
+
+                // 애니메이션 시퀀스로 인해 뒤틀린 사이즈를 복구 (보안)
+                transform.GetChild(0).localScale = Vector3.one;
+
+                // 애니메이션 재생
+                _animationSequencerController.Play();
+
+                // 사운드 재생
+                fruitStickIn.Play();
+            }
+        }
     }
 
     /// <summary>
@@ -206,7 +215,7 @@ public class FruitItem : MonoBehaviour
                 IsTouchingStick = false;
         }
     }
-    
+
     /// <summary>
     /// 이동 시스템을 처리합니다.
     /// </summary>
@@ -231,7 +240,7 @@ public class FruitItem : MonoBehaviour
         {
             // 떨어지는 애니메이션 재생
             if (_triggerStickFallAnimation)
-                transform.Translate(Vector2.down*(FallSpeed*FallMultiplier*Time.deltaTime));
+                transform.Translate(Vector2.down * (FallSpeed * FallMultiplier * Time.deltaTime));
         }
     }
 
@@ -248,7 +257,7 @@ public class FruitItem : MonoBehaviour
             return;
 
         // 자신의 높이의 절반을 구합니다.
-        float halfSelfHeight = _selfRectTransform.sizeDelta.y/2;
+        float halfSelfHeight = _selfRectTransform.sizeDelta.y / 2;
 
         if (_selfRectTransform.localPosition.y - halfSelfHeight < _stopPosition.localPosition.y)
         {
@@ -264,7 +273,8 @@ public class FruitItem : MonoBehaviour
             nextPosition.x = _stick.position.x;
 
             var lastFruit = Singleton.Instance<GameManager>().GetLastFruitType();
-            float addOffset = lastFruit switch {
+            float addOffset = lastFruit switch
+            {
                 EFruitType.None => 0f,
                 EFruitType.Strawberry => 0f,
                 EFruitType.ShineMuscat => 0f,
@@ -289,13 +299,13 @@ public class FruitItem : MonoBehaviour
 
             // 혹시 모를 버그를 대비하여 과일의 GFX 사이즈를 초기화합니다.
             transform.GetChild(0).localScale = Vector3.one;
-            
+
             // 애니메이션 재생
             _animationSequencerController.Play();
 
             // Stop 오브젝트의 위치를 다시 조정합니다. (30은 매직 넘버)
             const float kOffset = 30f;
-            _stopPosition.localPosition = _selfRectTransform.localPosition + Vector3.up*(halfSelfHeight - kOffset);
+            _stopPosition.localPosition = _selfRectTransform.localPosition + Vector3.up * (halfSelfHeight - kOffset);
 
             // 과일이 Finish 영역에 닿았을 때 처리를 합니다.
             GameObject physics = gameObject.transform.GetChild(0).GetChild(0).gameObject;
@@ -317,12 +327,7 @@ public class FruitItem : MonoBehaviour
             Interection = false;
         }
     }
-    
-    /// <summary>
-    /// 스틱에 계속 닿고 있는지를 체크합니다.
-    /// </summary>
-    public bool IsTouchingStick { get; set; }
-    
+
     private void OnTouchPosition(InputAction.CallbackContext ctx)
     {
         Vector2 touch = ctx.ReadValue<Vector2>();

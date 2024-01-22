@@ -1,7 +1,4 @@
-using JetBrains.Annotations;
-using NaughtyAttributes;
-using UniRx;
-using UniRx.Triggers;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -12,7 +9,8 @@ namespace Animation
     /// <summary>
     /// 클릭 액션 여부에 따라 스프라이트를 변경하는 애니메이션을 처리합니다.
     /// </summary>
-    public class SelectableSpriteAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler,
+    public class SelectableSpriteAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
+        IPointerEnterHandler,
         IPointerExitHandler
     {
         private enum EState
@@ -23,13 +21,16 @@ namespace Animation
             Disable
         }
 
-        [field: SerializeField] public bool Interaction { get; set; } = true;
-        
+        private bool _interaction = true;
+
+        // Interaction의 값이 변경됨의 여부에 따라 처리
+        public bool Interaction;
+
         public bool SelfTarget = true;
 
-        [ShowIf("ConditionTarget")]
+        [ConditionalField(nameof(SelfTarget), false)]
         public Image Target;
-        
+
         public Sprite Normal;
         public Sprite Press;
         public Sprite Highlight;
@@ -39,35 +40,29 @@ namespace Animation
         public UnityEvent OnUp;
         public UnityEvent EnableAction;
         public UnityEvent DisableAction;
-        
-        [UsedImplicitly] private bool ConditionTarget => SelfTarget == false;
+
         private EState _state = EState.Normal;
-
-        private void Start()
-        {
-            // Interaction의 값이 변경됨의 여부에 따라 처리
-            this.UpdateAsObservable()
-                .ObserveEveryValueChanged(_ => Interaction)
-                .Subscribe(active => {
-
-                    switch (active)
-                    {
-                        case true:
-                            EnableAction?.Invoke();
-                            _state = EState.Normal;
-                            break;
-                        
-                        case false :
-                            DisableAction?.Invoke();
-                            _state = EState.Disable;
-                            break;
-                    }
-                })
-                .AddTo(this);
-        }
 
         private void Update()
         {
+            if (Interaction != _interaction)
+            {
+                _interaction = Interaction;
+                
+                switch (_interaction)
+                {
+                    case true:
+                        EnableAction?.Invoke();
+                        _state = EState.Normal;
+                        break;
+
+                    case false:
+                        DisableAction?.Invoke();
+                        _state = EState.Disable;
+                        break;
+                }
+            }
+            
             if (Interaction)
             {
                 switch (_state)

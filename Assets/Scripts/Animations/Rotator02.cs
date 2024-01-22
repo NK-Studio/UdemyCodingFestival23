@@ -1,5 +1,3 @@
-using System;
-using UniRx;
 using UnityEngine;
 
 namespace Animation
@@ -15,15 +13,23 @@ namespace Animation
 
         private RectTransform _selfTransform;
 
+        private float _tick;
+        
         private void Start()
         {
             // 할당
             _selfTransform = GetComponent<RectTransform>();
+        }
 
-            // UniRX Interval
-            Observable.Interval(TimeSpan.FromSeconds(RotateDelay))
-                .Subscribe(_ => _selfTransform.Rotate(Vector3.forward, RotateAmount))
-                .AddTo(this);
+        private void Update()
+        {
+            _tick += Time.deltaTime;
+
+            if (_tick >= RotateDelay)
+            {
+                _selfTransform.Rotate(Vector3.forward, RotateAmount);
+                _tick = 0;
+            }
         }
     }
 }

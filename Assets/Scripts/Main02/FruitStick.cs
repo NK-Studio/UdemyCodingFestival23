@@ -1,37 +1,29 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AutoSingleton;
 using Data;
-using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using USingleton;
+
 
 public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [Header("RectTransform")]
-    public Transform Stick;
+    [Header("RectTransform")] public Transform Stick;
 
-    [Header("애니메이션 커브")]
-    public AnimationCurve UpDownCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    [Header("애니메이션 커브")] public AnimationCurve UpDownCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-    [Header("릴리즈")]
-    [ArrayElementTitle("FruitType")]
+    [Header("릴리즈")] [ArrayElementTitle("FruitType")]
     public FruitElement[] fruitElements;
 
-    [Header("디버그")]
-    [ArrayElementTitle("FruitType")]
+    [Header("디버그")] [ArrayElementTitle("FruitType")]
     public List<Fruit> testFruit;
 
     // 설탕이 코팅되는 수준을 0~1로 처리
-    private readonly FloatReactiveProperty _allCoatingAmount = new(0f);
-    public float AllCoatingAmount
-    {
-        get => _allCoatingAmount.Value;
-        set => _allCoatingAmount.Value = value;
-    }
-
+    private float _allCoatingAmount = 0f;
+    
     private bool _isTouch; // 터치 여부
     private bool _isExecuted; // 탕후루를 한쪽 방향으로 이동 시켰을 때 여러번 실행되는 것을 막기 위한 녀석
     private float _horizontal; // 탕후루를 좌우로 움직이는 값 (-1 ~ 1)
@@ -101,16 +93,21 @@ public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         _meltedFruits.Reverse();
 
         // 끝내는 애니메이션 실행
-        _allCoatingAmount
-            .Where(value => value >= 1f)
-            .Subscribe(_ => {
-                PotSystem potSystem = FindAnyObjectByType<PotSystem>();
-                potSystem.ShowFinish();
-            })
-            .AddTo(this);
+        StartCoroutine(FinishTask());
     }
 
+    /// <summary>
+    /// 끝내는 애니메이션 실행
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FinishTask()
+    {
+        yield return new WaitUntil(() => _allCoatingAmount >= 1f);
 
+        PotSystem potSystem = FindAnyObjectByType<PotSystem>();
+        potSystem.ShowFinish();
+    }
+    
     private void Update()
     {
         // 좌우 스와이프 값 (-1 ~ 1)
@@ -118,7 +115,7 @@ public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             _horizontal = GetSwipeValue();
 
         // 0~1로 처리
-        float animationNormalize = (_horizontal + 1)/2;
+        float animationNormalize = (_horizontal + 1) / 2;
 
         // 스와이프 애니메이션
         SwipeAnimation(animationNormalize);
@@ -180,7 +177,7 @@ public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         totalCoatingAmount /= _meltedFruits.Count;
 
         // 3-2. 전체적으로 얼마나 설탕물이 뭍었는지 적용한다.
-        AllCoatingAmount = totalCoatingAmount;
+        _allCoatingAmount = totalCoatingAmount;
     }
 
 
@@ -195,7 +192,8 @@ public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         // 스틱의 위치
         var upAmount = LimitAngle.y;
-        _selfRectTransform.anchoredPosition = new Vector2(_initPosition.x, _initPosition.y + upAmount*UpDownCurve.Evaluate(value));
+        _selfRectTransform.anchoredPosition =
+            new Vector2(_initPosition.x, _initPosition.y + upAmount * UpDownCurve.Evaluate(value));
     }
 
     /// <summary>
@@ -206,7 +204,7 @@ public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         //_touchPosition을 통해 왼쪽 또는 오른쪽 이동을 -1~ 1로 처리하는 코드
         //Horizontal = _touchPosition.x;
-        var horizontal = (_touchPosition.x - _touchStartPosition.x)/100;
+        var horizontal = (_touchPosition.x - _touchStartPosition.x) / 100;
 
         // Remap하여 -3 ~ 3을 -1 ~ 1로 처리
         horizontal = Mathf.Clamp(horizontal, -3, 3);

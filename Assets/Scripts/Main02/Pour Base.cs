@@ -1,7 +1,6 @@
+using System;
 using Animation;
 using BrunoMikoski.AnimationSequencer;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,8 +8,10 @@ namespace NKStudio
 {
     public abstract class PourBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        [field: SerializeField, Tooltip("클릭을 제어합니다.")] 
-        public bool Interaction { get; set; } = true;
+        private bool _interaction = true;
+        
+        [Tooltip("클릭을 제어합니다.")] 
+        public bool Interaction = true;
         
         [SerializeField]
         protected GameObject PourObject;
@@ -38,16 +39,19 @@ namespace NKStudio
                 PotSystem.Pouring = true;
                 PourObject.SetActive(true);
             });
+        }
 
-            this.UpdateAsObservable()
-                .ObserveEveryValueChanged(_ => Interaction)
-                .Subscribe(active => {
-                    if (active)
-                        Enable();
-                    else
-                        Disable();
-                })
-                .AddTo(this);
+        private void Update()
+        {
+            if (Interaction != _interaction)
+            {
+                _interaction = Interaction;
+                
+                if (_interaction)
+                    Enable();
+                else
+                    Disable();
+            }
         }
 
         /// <summary>
@@ -121,6 +125,7 @@ namespace NKStudio
         {
             OnTouchDown(eventData);
         }
+        
         public void OnPointerUp(PointerEventData eventData)
         {
             OnTouchUp(eventData);

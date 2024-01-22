@@ -3,15 +3,14 @@ using Animation;
 using BrunoMikoski.AnimationSequencer;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Lever : MonoBehaviour, IPointerDownHandler
 {
-    [field: SerializeField] public bool Interaction { get; set; } = true;
+    private bool _interaction;
+    public bool Interaction = true;
 
     [Header("Animation")]
     public Rotator OnRotator;
@@ -28,32 +27,27 @@ public class Lever : MonoBehaviour, IPointerDownHandler
 
     private AnimationSequencerController _boundSequence;
     private PotSystem _potSystem;
-    private Subject<Unit> _onPointerDown = new();
-    private IObservable<Unit> OnPointerDownAsObservable => _onPointerDown;
+
+    private bool _isTrigger;
 
     private void Start()
     {
         // 할당
         _boundSequence = GetComponent<AnimationSequencerController>();
         _potSystem = FindAnyObjectByType<PotSystem>();
-        
-        // Interaction의 상태에 따른 활성화 처리
-        this.UpdateAsObservable()
-            .ObserveEveryValueChanged(_ => Interaction)
-            .Subscribe(active => {
-                if (active)
-                    Enable();
-                else
-                    Disable();
-            })
-            .AddTo(this);
+    }
 
-        // 레버를 누르면 설탕을 녹이는 애니메이션을 1회 재생합니다.
-        OnPointerDownAsObservable
-            .Where(_ => Interaction)
-            .Take(1)
-            .Subscribe(_ => _potSystem.MeltedSugarPlay())
-            .AddTo(this);
+    private void Update()
+    {
+        if (Interaction != _interaction)
+        {
+            _interaction = Interaction;
+
+            if (_interaction)
+                Enable();
+            else
+                Disable();
+        }
     }
 
     protected virtual void Enable()
@@ -72,6 +66,7 @@ public class Lever : MonoBehaviour, IPointerDownHandler
     {
         _boundSequence.Kill();
         Target.sprite = Normal;
+        transform.localScale = Vector3.one;
 
         if (ShowDebug)
             Debug.Log("Disable");
@@ -79,7 +74,12 @@ public class Lever : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        _onPointerDown.OnNext(Unit.Default);
+        // 레버를 누르면 설탕을 녹이는 애니메이션을 1회 재생합니다.
+        if (Interaction && !_isTrigger)
+        {
+            _isTrigger = true;
+            _potSystem.MeltedSugarPlay();
+        }
     }
 
     /// <summary>

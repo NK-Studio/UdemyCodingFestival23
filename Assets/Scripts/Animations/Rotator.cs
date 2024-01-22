@@ -1,8 +1,7 @@
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
-using JetBrains.Annotations;
-using NaughtyAttributes;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -17,9 +16,8 @@ namespace Animation
         [field: SerializeField] public bool Interaction { get; set; } = true;
         public bool SelfTarget = true;
 
-        [ShowIf("ConditionTarget")]
+        [ConditionalField(nameof(SelfTarget), false)]
         public Transform Target;
-        [UsedImplicitly] private bool ConditionTarget => SelfTarget == false;
 
         public Vector3 TargetAngle;
         public float Duration = 1;

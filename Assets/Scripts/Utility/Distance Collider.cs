@@ -1,32 +1,32 @@
-using NaughtyAttributes;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class DistanceCollider : MonoBehaviour
 {
     public bool SelfTransform = true;
-    
-    [HideIf("SelfTransform")]
+
+    [ConditionalField(nameof(SelfTransform), false)]
     public Transform TargetTransform;
-    
+
     public RectTransform Target;
-    
+
     public float DistanceThreshold = 0.1f;
-    
+
     public UnityEvent OnEnter;
     public UnityEvent OnStay;
     public UnityEvent OnExit;
-    
+
     public bool DebugMode;
-    
+
     private bool _isTouching;
-    
+
     private void Update()
     {
         if (Target != null)
         {
             float distance;
-            
+
             if (SelfTransform)
                 distance = Vector3.Distance(Target.position, transform.position);
             else
@@ -42,6 +42,7 @@ public class DistanceCollider : MonoBehaviour
                     _isTouching = true;
                     OnEnter?.Invoke();
                 }
+
                 OnStay?.Invoke();
             }
             else

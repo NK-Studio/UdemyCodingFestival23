@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using AutoSingleton;
 using Data;
 #if UNITY_ANDROID
 using NKStudio;
 #endif
 using UnityEngine;
 using UnityEngine.InputSystem;
+using USingleton.AutoSingleton;
 
-[ManagerDefaultPrefab("GameManager")]
-public class GameManager : Singleton
+[Singleton(nameof(GameManager))]
+public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private InputAction back;
@@ -23,28 +23,20 @@ public class GameManager : Singleton
 
     private void OnEnable()
     {
-        back.Enable();
-#if UNITY_ANDROID
         back.performed += ShowExitDialog;
-#endif
+        back.Enable();
     }
 
     private void OnDisable()
     {
-#if UNITY_ANDROID
         back.performed -= ShowExitDialog;
-#endif
         back.Disable();
     }
-
-#if UNITY_ANDROID
+    
     private void ShowExitDialog(InputAction.CallbackContext ctx)
     {
-        NativeDialog.OpenDialog(Application.productName, "정말로 게임을 종료 하시겠습니까?", "네", "아니요",
-            Application.Quit,
-            () => Debug.Log("취소"));
+        Application.Quit();
     }
-#endif
     
     /// <summary>
     /// 마지막에 추가된 과일의 종류를 반환합니다.

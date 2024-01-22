@@ -482,7 +482,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 177936227}
-  - component: {fileID: 177936226}
   m_Layer: 0
   m_Name: Main 01
   m_TagString: Folder
@@ -490,19 +489,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &177936226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177936225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c190b5f9e63d44aff9e556336bff3a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviour: 1
 --- !u!4 &177936227
 Transform:
   m_ObjectHideFlags: 0
@@ -864,7 +850,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 309331781}
-  - component: {fileID: 309331782}
   m_Layer: 0
   m_Name: UI
   m_TagString: Folder
@@ -888,19 +873,6 @@ Transform:
   - {fileID: 304158623}
   m_Father: {fileID: 177936227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &309331782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 309331780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c190b5f9e63d44aff9e556336bff3a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviour: 1
 --- !u!1 &310488185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,10 +1071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da378f7075564909a12ebe6a985bb737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPressing:
-    value: 0
-  TouchPosition:
-    value: {x: 0, y: 0}
+  IsPressing: 0
+  TouchPosition: {x: 0, y: 0}
 --- !u!1001 &514312347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1777,7 +1747,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1278569951}
-  - component: {fileID: 1278569952}
   m_Layer: 0
   m_Name: Logic
   m_TagString: Folder
@@ -1804,19 +1773,6 @@ Transform:
   - {fileID: 1279629262}
   m_Father: {fileID: 177936227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1278569952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1278569950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c190b5f9e63d44aff9e556336bff3a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behaviour: 1
 --- !u!1 &1279629261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,23 +1814,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1279629261}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca70f3047ce0a4964b7b070d0e773942, type: 3}
+  m_Script: {fileID: 11500000, guid: 89fc4b73d3bdf43aeac288614f778a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetScene:
-    m_SceneAsset: {fileID: 102900000, guid: 18d476c586bf3c244aea73162910f668, type: 3}
-    m_IsDirty: 0
-    m_ScenePath: Assets/Scenes/Main 02.unity
-  OnLoadScene:
+  LoadStyle: 0
+  UseAsync: 0
+  editorAutoLoad: 0
+  loadScene:
+    sceneAsset: {fileID: 102900000, guid: 18d476c586bf3c244aea73162910f668, type: 3}
+    path: Assets/Scenes/Main 02.unity
+  additiveScenes: []
+  SkipMode: 2
+  MinimumLoadingTime: 0
+  DestroyOnCompleted: 0
+  onLoading:
     m_PersistentCalls:
       m_Calls: []
-  OnSceneLoaded:
+  onLoadCompleted:
     m_PersistentCalls:
       m_Calls: []
-  OnSceneActivated:
+  onCompleted:
     m_PersistentCalls:
       m_Calls: []
-  DebugMode: 0
 --- !u!1 &1280805358
 GameObject:
   m_ObjectHideFlags: 0

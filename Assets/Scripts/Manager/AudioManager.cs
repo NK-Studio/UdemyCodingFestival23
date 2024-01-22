@@ -1,7 +1,8 @@
-using AutoSingleton;
+using UnityEngine;
+using USingleton.AutoSingleton;
 
-[ManagerDefaultPrefab("Audio Manager")]
-public class AudioManager : Singleton
+[Singleton(nameof(AudioManager))]
+public class AudioManager : MonoBehaviour
 {
 
 }
