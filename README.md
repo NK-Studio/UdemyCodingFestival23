@@ -2,12 +2,12 @@
 탕후루 프로젝트
 
 # 진행 환경  
-그래픽 리소스 (https://drive.google.com/file/d/19VhIiAuOcBk6LepqYv-MuY1ueLnI3_GD/view?usp=sharing)  
-모바일 플러그인 (https://drive.google.com/file/d/15LnFAwYQj9_qV7QR_37YGs-bDBMxTyx_/view?usp=sharing)  
-도우미 코드 (https://drive.google.com/file/d/1pmCYhATZK_Wb4TAiicVmruIM_wgVEzhd/view?usp=sharing)  
 Unity 2022.3 LTS 이상  
 URP 14  
 Input System  
+그래픽 리소스 (https://drive.google.com/file/d/19VhIiAuOcBk6LepqYv-MuY1ueLnI3_GD/view?usp=sharing)  
+모바일 플러그인 (https://drive.google.com/file/d/15LnFAwYQj9_qV7QR_37YGs-bDBMxTyx_/view?usp=sharing)  
+도우미 코드 (https://drive.google.com/file/d/1pmCYhATZK_Wb4TAiicVmruIM_wgVEzhd/view?usp=sharing)  
 
 # 1. 진행하기 전에 사전 공부가 필요해요
 Git (https://git-scm.com/) 강의 영상 (https://www.youtube.com/watch?v=ZJ7ATY0d4so&t=2s)  
