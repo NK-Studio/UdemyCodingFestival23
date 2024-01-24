@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Build;
 
 namespace NKStudio
 {
@@ -11,14 +12,18 @@ namespace NKStudio
 
             if (AssetDatabase.IsValidFolder(fmodFolder))
             {
-                var symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(
-                    BuildTargetGroup.Standalone);
+                BuildTargetGroup buildTargetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
+#if UNITY_2023
+                string symbols = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup));
 
                 if (!symbols.Contains("USE_FMOD"))
-                {
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(
-                        BuildTargetGroup.Standalone, symbols + ";USE_FMOD");
-                }
+                    PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup), symbols + ";USE_FMOD");
+#else
+                  var symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
+
+                if (!symbols.Contains("USE_FMOD"))
+                    PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, symbols + ";USE_FMOD");
+#endif
             }
         }
     }
