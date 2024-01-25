@@ -3,7 +3,7 @@ package com.unity3d.player
 import android.app.AlertDialog
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
+import android.content.Context
 
 class UPlugin {
 
@@ -32,7 +32,7 @@ class UPlugin {
     private fun Vibrate(milliseconds: Long, amplitude: Int) {
 
         val vibrator =
-                UnityPlayer.currentActivity.getSystemService(UnityPlayerGameActivity.VIBRATOR_SERVICE) as Vibrator
+                UnityPlayer.currentActivity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, amplitude));
     }
 }
