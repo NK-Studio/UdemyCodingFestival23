@@ -20,7 +20,7 @@ Array Element Title(https://www.youtube.com/watch?v=eNklrS0ntF0)
 # 2. 진행하면서 세팅하기
 Toon Shader (https://docs.unity3d.com/Packages/com.unity.toonshader@0.9/manual/index.html)  
 DoTween (https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)  
-CustomToolbar (https://www.notion.so/a773a51426714179b92bafaa929a67fc?pvs=4)  
+Scene Switcher (https://www.notion.so/a773a51426714179b92bafaa929a67fc?pvs=4)  
 Event System Patch (https://www.youtube.com/watch?v=-L_3kY1mtdk&t=21s)  
 
 # 3. 진행하면서 배울거에요.
