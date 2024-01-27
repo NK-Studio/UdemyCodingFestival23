@@ -5,6 +5,7 @@ using DG.Tweening;
 using NKStudio;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneSystem;
 
 public class FruitManager : MonoBehaviour
@@ -21,7 +22,7 @@ public class FruitManager : MonoBehaviour
     [Header("과일"), ArrayElementTitle("FruitType")]
     public FruitElement[] fruits;
 
-    private InputController _inputController;
+    //private InputController _inputController;
 
     private bool _hasControlFruit;
 
@@ -39,13 +40,7 @@ public class FruitManager : MonoBehaviour
         }
     }
 
-    private bool _finish;
-
-    public bool Finish
-    {
-        get => _finish;
-        set => _finish = value;
-    }
+    public bool Finish { get; set; }
 
     // Constants
     private static readonly int Trigger = Animator.StringToHash("Trigger");
@@ -54,8 +49,8 @@ public class FruitManager : MonoBehaviour
 
     private void Start()
     {
-        _inputController = FindAnyObjectByType<InputController>();
-        
+        //_inputController = FindAnyObjectByType<InputController>();
+
         StartCoroutine(FinishTask());
     }
 
@@ -65,7 +60,7 @@ public class FruitManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator FinishTask()
     {
-        yield return new WaitUntil(() => _finish);
+        yield return new WaitUntil(() => Finish);
 
         // 아이템 박스를 왼쪽으로 이동하도록 처리
         ItemBoxGroup.DOMoveX(kItemBoxGroupX, kItemBoxDuration).SetEase(Ease.OutSine).Play().SetLink(gameObject)
@@ -114,16 +109,21 @@ public class FruitManager : MonoBehaviour
         if (targetIndex == -1)
             Assert.IsTrue(false, "해당 과일이 없습니다.");
 
+        bool isTouchSupport = Touchscreen.current.IsActuated();
+
+        Vector2 position = isTouchSupport
+            ? Touchscreen.current.primaryTouch.position.ReadValue()
+            : Mouse.current.position.ReadValue();
+
         // 과일을 생성합니다.
-        var fruit = Instantiate(fruits[targetIndex].Prefab, _inputController.TouchPosition, Quaternion.identity);
-        fruit.transform.SetParent(TargetCanvas.transform);
+        GameObject fruit = Instantiate(fruits[targetIndex].Prefab, TargetCanvas.transform);
         fruit.transform.localScale = Vector3.one;
 
         // 과일의 위치를 초기 재설정하고, 초기화를 처리합니다.
         if (fruit.TryGetComponent(out FruitItem item))
         {
-            fruit.transform.position = _inputController.TouchPosition + (Vector2)item.Offset;
-            item.Init(_inputController, this);
+            fruit.transform.position = position + (Vector2)item.Offset;
+            item.Init(this);
         }
 
         // 과일의 거리 콜라이더를 설정합니다.

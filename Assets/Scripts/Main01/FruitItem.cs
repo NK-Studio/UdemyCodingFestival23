@@ -97,45 +97,43 @@ public class FruitItem : MonoBehaviour
         }
     }
     
-    public void Init(InputController inputController, FruitManager fruitManager)
+    public void Init(FruitManager fruitManager)
     {
         _fruitManager = fruitManager;
         _fruitManager.HasControlFruit = true;
-
-        // 화면 터치에 손을 땟다면,
-        inputController.OnPressAction += active =>
-        {
-            if (!active)
-            {
-                // 스톱 영역에 대한 허용 처리가 False라면, 더 이상 진행하지 않는다.
-                if (!_activeDownCheck)
-                    return;
-
-                // 스틱에 꼿혀져 있는 상태라면, 더 이상 인터렉션을 멈추고 밑으로 떨어지는 애니메이션을 재생한다.
-                if (IsTouchingStick)
-                {
-                    Interection = false;
-                    _triggerStickFallAnimation = true;
-                }
-                else
-                {
-                    // 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
-                    _fruitManager.HasControlFruit = false;
-                    Destroy(gameObject);
-                }
-            }
-        };
     }
 
     private void OnEnable()
     {
         _mainInputAction.Enable();
         _mainInputAction.Player.TouchPosition.performed += OnTouchPosition;
+        _mainInputAction.Player.TouchPress.canceled += OnTouchRelease;
+    }
+
+    private void OnTouchRelease(InputAction.CallbackContext obj)
+    {
+        // 스톱 영역에 대한 허용 처리가 False라면, 더 이상 진행하지 않는다.
+        if (!_activeDownCheck)
+            return;
+        
+        // 스틱에 꼿혀져 있는 상태라면, 더 이상 인터렉션을 멈추고 밑으로 떨어지는 애니메이션을 재생한다.
+        if (IsTouchingStick)
+        {
+            Interection = false;
+            _triggerStickFallAnimation = true;
+        }
+        else
+        {
+            // 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
+            _fruitManager.HasControlFruit = false;
+            Destroy(gameObject);
+        }
     }
 
     private void OnDisable()
     {
         _mainInputAction.Player.TouchPosition.performed -= OnTouchPosition;
+        _mainInputAction.Player.TouchPress.canceled -= OnTouchRelease;
         _mainInputAction.Disable();
     }
 
@@ -217,6 +215,18 @@ public class FruitItem : MonoBehaviour
     }
 
     /// <summary>
+    /// 과일이 스틱의 끝 부분에 닿았는지 윗 부분으로 체크합니다.
+    /// </summary>
+    /// <returns>과일이 막대 꼭대기에 닿으면 true를 반환하고, 그렇지 않으면 false를 반환합니다.</returns>
+    private bool IsEnterFinishStick()
+    {
+        // 과일의 윗 Y값을 구합니다.
+        float fruitUpY = _selfRectTransform.anchoredPosition.y + _selfRectTransform.rect.yMax;
+        return fruitUpY > _targetY.anchoredPosition.y;
+    }
+    
+
+    /// <summary>
     /// 이동 시스템을 처리합니다.
     /// </summary>
     private void Move()
@@ -276,9 +286,9 @@ public class FruitItem : MonoBehaviour
             float addOffset = lastFruit switch
             {
                 EFruitType.None => 0f,
-                EFruitType.Strawberry => 0f,
+                EFruitType.Strawberry => 5f,
                 EFruitType.ShineMuscat => 0f,
-                EFruitType.Mandarine => 20f,
+                EFruitType.Mandarine => 100f,
                 EFruitType.Blueberry => 10f,
                 EFruitType.BlackSapphire => 40f,
                 _ => throw new ArgumentOutOfRangeException()
@@ -308,20 +318,8 @@ public class FruitItem : MonoBehaviour
             _stopPosition.localPosition = _selfRectTransform.localPosition + Vector3.up * (halfSelfHeight - kOffset);
 
             // 과일이 Finish 영역에 닿았을 때 처리를 합니다.
-            GameObject physics = gameObject.transform.GetChild(0).GetChild(0).gameObject;
-            if (physics.TryGetComponent(out BoxCollider2D boxCollider2D))
-            {
-                Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, boxCollider2D.size, 0);
-
-                foreach (var coll in colliders)
-                {
-                    if (coll.gameObject.CompareTag("Finish"))
-                    {
-                        _fruitManager.Finish = true;
-                        break;
-                    }
-                }
-            }
+            if (IsEnterFinishStick()) 
+                _fruitManager.Finish = true;
 
             // 인터렉션 불가 처리
             Interection = false;
