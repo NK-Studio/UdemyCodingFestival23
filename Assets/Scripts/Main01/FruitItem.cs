@@ -9,17 +9,14 @@ using BrunoMikoski.AnimationSequencer;
 
 public class FruitItem : MonoBehaviour
 {
-    [field: SerializeField]
-    public bool Interection { get; set; } = true;
-
     [Header("과일 타입")] public EFruitType FruitType;
 
     [Header("떨어지는 속도")] public float FallSpeed = 1f;
     public float FallMultiplier = 100f;
-
-    [Header("Audio"), SerializeField] private AudioSource fruitStickIn;
-
+    
     [Header("드래그 시 과일 위치 오프셋")] public Vector3 Offset;
+    
+    [Header("Audio"), SerializeField] private AudioSource fruitStickIn;
 
     // RectTransform
     private RectTransform _selfRectTransform; // 자신
@@ -50,13 +47,16 @@ public class FruitItem : MonoBehaviour
     private bool _triggerStickFallAnimation;
 
     // 스톱 영역에 닿았을 때 처리를 허용하는 트리거
-    private bool _activeDownCheck = true;
+    private bool _isEnterStopPoint = false;
 
+    // 이동 가능 여부
+    private bool _moveEnable = true;
+    
     // Constants
     private const int kDefaultVibrateTime = 100;
     private const int kDefaultVibrateAmplitude = 100;
 
-    // 스틱에 계속 닿고 있는지를 체크합니다.
+    // 스틱에 닿고 있는지를 체크합니다.
     private bool _isTouchingStick
     {
         get => _prevIsTouchingStick;
@@ -136,8 +136,8 @@ public class FruitItem : MonoBehaviour
 
     private void Update()
     {
-        TriggerTouchingStick();
-        Move();
+        UpdateMove();
+        UpdateIsTouchingStick();
         UpdateStopSystem();
     }
 
@@ -162,7 +162,7 @@ public class FruitItem : MonoBehaviour
     /// <summary>
     /// 과일이 스틱의 시작부분에 닿았는지를 체크합니다.
     /// </summary>
-    private void TriggerTouchingStick()
+    private void UpdateIsTouchingStick()
     {
         // Stop 영역에 대한 허용 처리가 True라면,
         if (_allowFruitPiercing)
@@ -193,10 +193,10 @@ public class FruitItem : MonoBehaviour
     /// <summary>
     /// 이동 시스템을 처리합니다.
     /// </summary>
-    private void Move()
+    private void UpdateMove()
     {
         // 인터렉션 가능 시, 터치 위치에 따라 이동합니다.
-        if (Interection)
+        if (_moveEnable)
         {
             // 스틱에 닿으면 스틱 중심에서 업-다운만 가능, 스틱 밖에 있으면 좌-우 이동도 가능
             if (_isTouchingStick)
@@ -228,7 +228,8 @@ public class FruitItem : MonoBehaviour
         if (!_allowFruitPiercing)
             return;
 
-        if (!_activeDownCheck)
+        // 스톱 포인트에 닿았다면, return 
+        if (_isEnterStopPoint)
             return;
 
         // 자신의 높이의 절반을 구합니다.
@@ -247,6 +248,7 @@ public class FruitItem : MonoBehaviour
             var nextPosition = Vector3.zero;
             nextPosition.x = _stick.position.x;
 
+            // 과일의 유형에 따라 멈출 위치를 조정합니다.
             var lastFruit = Singleton.Instance<GameManager>().GetLastFruitType();
             float addOffset = lastFruit switch
             {
@@ -263,7 +265,7 @@ public class FruitItem : MonoBehaviour
             _selfRectTransform.position = nextPosition;
 
             // 더 이상 스톱 영역 높이 체크를 하지 않음
-            _activeDownCheck = false;
+            _isEnterStopPoint = true;
 
             // 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
             _fruitManager.ShowHintUI(false);
@@ -286,8 +288,8 @@ public class FruitItem : MonoBehaviour
             if (IsEnterFinishStick()) 
                 _fruitManager.Finish = true;
 
-            // 인터렉션 불가 처리
-            Interection = false;
+            // 동작 불가 처리
+            _moveEnable = false;
             
             // 등록 해제
             _distanceCollider.OnEnter.RemoveListener(OnEnter);
@@ -303,21 +305,25 @@ public class FruitItem : MonoBehaviour
     
     private void OnTouchRelease(InputAction.CallbackContext obj)
     {
-        // 스톱 영역에 대한 허용 처리가 False라면, 더 이상 진행하지 않는다.
-        // 스틱 내부로 들어온 이상 오브젝트 제거 처리를 하지 않는다.
-        if (!_activeDownCheck)
+        // 스톱 포인트에 닿았다면 더 이상 인터렉션을 처리하지 않는다.
+        if (_isEnterStopPoint)
             return;
         
         // 스틱에 꼿혀져 있는 상태라면, 더 이상 인터렉션을 멈추고 밑으로 떨어지는 애니메이션을 재생한다.
         if (_isTouchingStick)
         {
-            Interection = false;
+            // 동작 불가 처리
+            _moveEnable = false;
+            
+            // 떨어지는 애니메이션을 트리거합니다.
             _triggerStickFallAnimation = true;
         }
         else
         {
-            // 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
+            // 힌트 UI를 숨깁니다.
             _fruitManager.ShowHintUI(false);
+            
+            // 자신 제거
             Destroy(gameObject);
         }
     }

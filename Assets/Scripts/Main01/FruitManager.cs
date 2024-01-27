@@ -21,7 +21,16 @@ public class FruitManager : MonoBehaviour
 
     [Header("과일"), ArrayElementTitle("FruitType")]
     public FruitElement[] fruits;
-    
+
+    /// <summary>
+    /// 작업이 완료되었는지 여부를 나타내는 값을 가져오거나 설정합니다.
+    /// </summary>
+    /// <remarks>
+    /// 이 속성은 작업이 완료되었는지 여부를 확인하는 데 사용됩니다.
+    /// </remarks>
+    /// <value>
+    /// 작업이 완료되면 <c>true</c>입니다. 그렇지 않으면 <c>false</c>입니다.
+    /// </value>
     public bool Finish { get; set; }
 
     // Constants
@@ -66,15 +75,6 @@ public class FruitManager : MonoBehaviour
     [VisibleEnum(typeof(EFruitType))]
     public void Generate(int fruitType)
     {
-        Generate((EFruitType)fruitType);
-    }
-
-    /// <summary>
-    /// 지정된 유형의 과일을 생성합니다.
-    /// </summary>
-    /// <param name="fruitType">생성할 과일의 유형입니다.</param>
-    public void Generate(EFruitType fruitType)
-    {
         // 과일 꼬치에 과일이 모두 꼿아졌다면 더 이상 과일을 생성하지 않습니다.
         if (Finish)
             return;
@@ -83,11 +83,10 @@ public class FruitManager : MonoBehaviour
         int targetIndex = -1;
         for (int i = 0; i < fruits.Length; i++)
         {
-            if (fruits[i].FruitType == fruitType)
-            {
-                targetIndex = i;
-                break;
-            }
+            if (fruits[i].FruitType != (EFruitType)fruitType) continue;
+            
+            targetIndex = i;
+            break;
         }
 
         if (targetIndex == -1)
