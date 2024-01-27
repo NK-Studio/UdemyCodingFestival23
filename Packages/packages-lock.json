@@ -33,6 +33,13 @@
       "dependencies": {},
       "hash": "6f0e129dd4d621727a2ba0e011d1bbc0da098c35"
     },
+    "com.nkstudio.ufolder": {
+      "version": "https://github.com/NK-Studio/UFolder.git#UPM",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "dcc2954075ce0db866251a34c4bb5b2eb8aa6fc8"
+    },
     "com.nkstudio.usinglton": {
       "version": "https://github.com/NK-Studio/USingleton.git#UPM",
       "depth": 0,
@@ -141,11 +148,12 @@
       "hash": "1af8ee18a53e6538eb6fdd474a6688fa7f55891f"
     },
     "com.unity.burst": {
-      "version": "1.8.11",
+      "version": "1.8.12",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.mathematics": "1.2.1"
+        "com.unity.mathematics": "1.2.1",
+        "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

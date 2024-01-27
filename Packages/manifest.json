@@ -4,6 +4,7 @@
     "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git#1.8.0",
     "com.nkstudio.eventsystempatch": "https://github.com/NK-Studio/EventSystem-Patch.git",
     "com.nkstudio.scenereference": "https://github.com/NK-Studio/SceneReference.git#UPM",
+    "com.nkstudio.ufolder": "https://github.com/NK-Studio/UFolder.git#UPM",
     "com.nkstudio.usinglton": "https://github.com/NK-Studio/USingleton.git#UPM",
     "com.unity.arrayelementtitle": "https://github.com/NK-Studio/Array-Element-Title.git#UPM",
     "com.unity.collab-proxy": "2.2.0",
