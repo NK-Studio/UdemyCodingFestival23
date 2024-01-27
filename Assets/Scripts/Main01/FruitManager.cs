@@ -21,25 +21,7 @@ public class FruitManager : MonoBehaviour
 
     [Header("과일"), ArrayElementTitle("FruitType")]
     public FruitElement[] fruits;
-
-    //private InputController _inputController;
-
-    private bool _hasControlFruit;
-
-    public bool HasControlFruit
-    {
-        get => _hasControlFruit;
-        set
-        {
-            if (_hasControlFruit != value)
-            {
-                // 컨트롤할 수 있는 과일이 있으면 스틱 힌트 애니메이션 활성화
-                _hasControlFruit = value;
-                TriggerStickIn.gameObject.SetActive(value);
-            }
-        }
-    }
-
+    
     public bool Finish { get; set; }
 
     // Constants
@@ -49,8 +31,6 @@ public class FruitManager : MonoBehaviour
 
     private void Start()
     {
-        //_inputController = FindAnyObjectByType<InputController>();
-
         StartCoroutine(FinishTask());
     }
 
@@ -95,6 +75,10 @@ public class FruitManager : MonoBehaviour
     /// <param name="fruitType">생성할 과일의 유형입니다.</param>
     public void Generate(EFruitType fruitType)
     {
+        // 과일 꼬치에 과일이 모두 꼿아졌다면 더 이상 과일을 생성하지 않습니다.
+        if (Finish)
+            return;
+        
         // 과일 리스트에서 인자로 들어온 과일의 유형을 찾습니다.
         int targetIndex = -1;
         for (int i = 0; i < fruits.Length; i++)
@@ -127,9 +111,16 @@ public class FruitManager : MonoBehaviour
         }
 
         // 과일의 거리 콜라이더를 설정합니다.
-        if (fruit.TryGetComponent(out DistanceCollider distanceCollider))
-        {
+        if (fruit.TryGetComponent(out DistanceCollider distanceCollider)) 
             distanceCollider.Target = TriggerStickIn;
-        }
+    }
+    
+    /// <summary>
+    /// 힌트 UI를 표시하거나 숨깁니다.
+    /// </summary>
+    /// <param name="value">힌트 UI를 표시할지 숨길지를 나타내는 부울 값입니다.</param>
+    public void ShowHintUI(bool value)
+    {
+        TriggerStickIn.gameObject.SetActive(value);
     }
 }

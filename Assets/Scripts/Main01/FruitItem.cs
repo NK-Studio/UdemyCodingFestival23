@@ -1,21 +1,11 @@
+using Data;
 using System;
 using Animation;
-using BrunoMikoski.AnimationSequencer;
-using Data;
 using NKStudio;
+using USingleton;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using USingleton;
-
-public enum EFruitType
-{
-    None,
-    Strawberry,
-    ShineMuscat,
-    Mandarine,
-    Blueberry,
-    BlackSapphire
-}
+using BrunoMikoski.AnimationSequencer;
 
 public class FruitItem : MonoBehaviour
 {
@@ -66,13 +56,22 @@ public class FruitItem : MonoBehaviour
     private const int kDefaultVibrateTime = 100;
     private const int kDefaultVibrateAmplitude = 100;
 
+    // 스틱에 계속 닿고 있는지를 체크합니다.
+    private bool _isTouchingStick
+    {
+        get => _prevIsTouchingStick;
+        set
+        {
+            if (_prevIsTouchingStick == value)
+                return;
 
-    private bool _isTouchingStick;
+            _prevIsTouchingStick = value;
 
-    /// <summary>
-    /// 스틱에 계속 닿고 있는지를 체크합니다.
-    /// </summary>
-    public bool IsTouchingStick;
+            // 스틱에 닿았다면, 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
+            PlayEffect();
+        }
+    }
+    private bool _prevIsTouchingStick;
     
     private void Awake()
     {
@@ -82,9 +81,9 @@ public class FruitItem : MonoBehaviour
     private void Start()
     {
         // 할당
+        _rotator = GetComponent<Rotator>();
         _selfRectTransform = GetComponent<RectTransform>();
         _animationSequencerController = GetComponent<AnimationSequencerController>();
-        _rotator = GetComponent<Rotator>();
         _stopPosition = GameObject.Find("StopPosition").GetComponent<RectTransform>();
         _stick = GameObject.Find("Stick").GetComponent<RectTransform>();
         _targetY = GameObject.Find("In Line").GetComponent<RectTransform>();
@@ -100,7 +99,7 @@ public class FruitItem : MonoBehaviour
     public void Init(FruitManager fruitManager)
     {
         _fruitManager = fruitManager;
-        _fruitManager.HasControlFruit = true;
+        _fruitManager.ShowHintUI(true);
     }
 
     private void OnEnable()
@@ -108,26 +107,6 @@ public class FruitItem : MonoBehaviour
         _mainInputAction.Enable();
         _mainInputAction.Player.TouchPosition.performed += OnTouchPosition;
         _mainInputAction.Player.TouchPress.canceled += OnTouchRelease;
-    }
-
-    private void OnTouchRelease(InputAction.CallbackContext obj)
-    {
-        // 스톱 영역에 대한 허용 처리가 False라면, 더 이상 진행하지 않는다.
-        if (!_activeDownCheck)
-            return;
-        
-        // 스틱에 꼿혀져 있는 상태라면, 더 이상 인터렉션을 멈추고 밑으로 떨어지는 애니메이션을 재생한다.
-        if (IsTouchingStick)
-        {
-            Interection = false;
-            _triggerStickFallAnimation = true;
-        }
-        else
-        {
-            // 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
-            _fruitManager.HasControlFruit = false;
-            Destroy(gameObject);
-        }
     }
 
     private void OnDisable()
@@ -139,10 +118,6 @@ public class FruitItem : MonoBehaviour
 
     private void OnEnter()
     {
-        // 과일 매니저가 끝났다면, 멈춰!
-        if (_fruitManager.Finish)
-            return;
-
         // 꼿아지는 것을 허락합니다.
         _allowFruitPiercing = true;
         _rotator.Play();
@@ -150,12 +125,8 @@ public class FruitItem : MonoBehaviour
 
     private void OnExit()
     {
-        // 과일 매니저가 끝났다면, 멈춰!
-        if (_fruitManager.Finish)
-            return;
-
         // 스틱에 닿지 않았다면,
-        if (!IsTouchingStick)
+        if (!_isTouchingStick)
         {
             // 꼿아지는 것을 철회합니다.
             _allowFruitPiercing = false;
@@ -168,31 +139,24 @@ public class FruitItem : MonoBehaviour
         TriggerTouchingStick();
         Move();
         UpdateStopSystem();
-        ChangeValueByIsTouchingStick();
     }
 
-    private void ChangeValueByIsTouchingStick()
+    /// <summary>
+    /// 진동 및 애니메이션 재생, 사운드 재생을 처리합니다.
+    /// </summary>
+    private void PlayEffect()
     {
-        if (IsTouchingStick != _isTouchingStick)
-        {
-            _isTouchingStick = IsTouchingStick;
-            
-            // 과일이 스틱 처음 부분에 닿았을 때 처리
-            if (_isTouchingStick)
-            {
-                // 진동 처리
-                MobileNative.Vibrate(kDefaultVibrateTime, kDefaultVibrateAmplitude);
+        // 진동 처리
+        MobileNative.Vibrate(kDefaultVibrateTime, kDefaultVibrateAmplitude);
 
-                // 애니메이션 시퀀스로 인해 뒤틀린 사이즈를 복구 (보안)
-                transform.GetChild(0).localScale = Vector3.one;
+        // 애니메이션 시퀀스로 인해 뒤틀린 사이즈를 복구 (보안)
+        transform.GetChild(0).localScale = Vector3.one;
 
-                // 애니메이션 재생
-                _animationSequencerController.Play();
+        // 애니메이션 재생
+        _animationSequencerController.Play();
 
-                // 사운드 재생
-                fruitStickIn.Play();
-            }
-        }
+        // 사운드 재생
+        fruitStickIn.Play();
     }
 
     /// <summary>
@@ -208,9 +172,9 @@ public class FruitItem : MonoBehaviour
 
             // 과일이 스틱에 꼿혀지는 높이에 닿았다면(미만이라면),
             if (fruitBottomY < _targetY.position.y)
-                IsTouchingStick = true;
+                _isTouchingStick = true;
             else
-                IsTouchingStick = false;
+                _isTouchingStick = false;
         }
     }
 
@@ -231,11 +195,11 @@ public class FruitItem : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        // 스틱에서 떨어지는 애니메이션 재생 중이 아니라면,
+        // 인터렉션 가능 시, 터치 위치에 따라 이동합니다.
         if (Interection)
         {
             // 스틱에 닿으면 스틱 중심에서 업-다운만 가능, 스틱 밖에 있으면 좌-우 이동도 가능
-            if (IsTouchingStick)
+            if (_isTouchingStick)
             {
                 Vector3 newPosition = new(_stick.position.x, _touchPosition.y, 0f);
                 transform.position = newPosition + Offset;
@@ -246,6 +210,7 @@ public class FruitItem : MonoBehaviour
                 transform.position = newPosition + Offset;
             }
         }
+        // 인터렉션 불가 시, 떨어지는 애니메이션을 재생합니다.
         else
         {
             // 떨어지는 애니메이션 재생
@@ -301,7 +266,7 @@ public class FruitItem : MonoBehaviour
             _activeDownCheck = false;
 
             // 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
-            _fruitManager.HasControlFruit = false;
+            _fruitManager.ShowHintUI(false);
 
             // 과일 매니저에 과일을 추가합니다.
             Fruit item = new Fruit(FruitType, transform.localPosition);
@@ -323,6 +288,10 @@ public class FruitItem : MonoBehaviour
 
             // 인터렉션 불가 처리
             Interection = false;
+            
+            // 등록 해제
+            _distanceCollider.OnEnter.RemoveListener(OnEnter);
+            _distanceCollider.OnExit.RemoveListener(OnExit);
         }
     }
 
@@ -330,5 +299,26 @@ public class FruitItem : MonoBehaviour
     {
         Vector2 touch = ctx.ReadValue<Vector2>();
         _touchPosition = touch;
+    }
+    
+    private void OnTouchRelease(InputAction.CallbackContext obj)
+    {
+        // 스톱 영역에 대한 허용 처리가 False라면, 더 이상 진행하지 않는다.
+        // 스틱 내부로 들어온 이상 오브젝트 제거 처리를 하지 않는다.
+        if (!_activeDownCheck)
+            return;
+        
+        // 스틱에 꼿혀져 있는 상태라면, 더 이상 인터렉션을 멈추고 밑으로 떨어지는 애니메이션을 재생한다.
+        if (_isTouchingStick)
+        {
+            Interection = false;
+            _triggerStickFallAnimation = true;
+        }
+        else
+        {
+            // 과일 매니저에 컨트롤 가능한 과일이 없음을 처리
+            _fruitManager.ShowHintUI(false);
+            Destroy(gameObject);
+        }
     }
 }
