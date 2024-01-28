@@ -5,7 +5,7 @@
 Unity 2023.2.7f LTS 이상  
 URP 16 
 Input System  
-그래픽 리소스 (https://drive.google.com/file/d/19VhIiAuOcBk6LepqYv-MuY1ueLnI3_GD/view?usp=sharing)  
+탕후루 리소스 (https://drive.google.com/file/d/19VhIiAuOcBk6LepqYv-MuY1ueLnI3_GD/view?usp=sharing)  
 모바일 플러그인 (https://drive.google.com/file/d/15LnFAwYQj9_qV7QR_37YGs-bDBMxTyx_/view?usp=sharing)  
 도우미 코드 (https://drive.google.com/file/d/1pmCYhATZK_Wb4TAiicVmruIM_wgVEzhd/view?usp=sharing)  
 
