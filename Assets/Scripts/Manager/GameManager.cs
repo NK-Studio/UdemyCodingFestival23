@@ -37,11 +37,11 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-    
+
     /// <summary>
     /// 마지막에 추가된 과일의 종류를 반환합니다.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>마지막 과일 종류가 반환됩니다. 목록이 비어 있으면 EFruitType.None을 반환합니다.</returns>
     public EFruitType GetLastFruitType()
     {
         if (Fruits.Count == 0)

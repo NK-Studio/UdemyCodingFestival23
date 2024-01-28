@@ -28,7 +28,7 @@ namespace Animation
 
         public bool SelfTarget = true;
 
-        [ConditionalField(nameof(SelfTarget), false)]
+        [ConditionalField(nameof(SelfTarget), true)]
         public Image Target;
 
         public Sprite Normal;
@@ -48,7 +48,7 @@ namespace Animation
             if (Interaction != _interaction)
             {
                 _interaction = Interaction;
-                
+
                 switch (_interaction)
                 {
                     case true:
@@ -62,7 +62,7 @@ namespace Animation
                         break;
                 }
             }
-            
+
             if (Interaction)
             {
                 switch (_state)

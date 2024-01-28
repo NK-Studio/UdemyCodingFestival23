@@ -16,7 +16,7 @@ namespace Animation
         [field: SerializeField] public bool Interaction { get; set; } = true;
         public bool SelfTarget = true;
 
-        [ConditionalField(nameof(SelfTarget), false)]
+        [ConditionalField(nameof(SelfTarget), true)]
         public Transform Target;
 
         public Vector3 TargetAngle;
@@ -57,9 +57,11 @@ namespace Animation
             _sequence?.Kill();
 
             if (SelfTarget)
-                _sequence = _selfTransform.DORotate(TargetAngle, Duration, RotateType).SetEase(EaseType).Play().OnComplete(() => OnComplete?.Invoke()).SetLink(gameObject).SetAutoKill();
+                _sequence = _selfTransform.DORotate(TargetAngle, Duration, RotateType).SetEase(EaseType).Play()
+                    .OnComplete(() => OnComplete?.Invoke()).SetLink(gameObject).SetAutoKill();
             else
-                _sequence = Target.DORotate(TargetAngle, Duration, RotateType).SetEase(EaseType).Play().OnComplete(() => OnComplete?.Invoke()).SetLink(gameObject).SetAutoKill();
+                _sequence = Target.DORotate(TargetAngle, Duration, RotateType).SetEase(EaseType).Play()
+                    .OnComplete(() => OnComplete?.Invoke()).SetLink(gameObject).SetAutoKill();
 
             return _sequence;
         }
@@ -75,9 +77,11 @@ namespace Animation
             _sequence?.Kill();
 
             if (SelfTarget)
-                _sequence = _selfTransform.DORotate(_baseAngle, Duration, RotateType).SetEase(EaseType).Play().SetLink(gameObject).SetAutoKill();
+                _sequence = _selfTransform.DORotate(_baseAngle, Duration, RotateType).SetEase(EaseType).Play()
+                    .SetLink(gameObject).SetAutoKill();
             else
-                _sequence = Target.DORotate(_baseAngle, Duration, RotateType).SetEase(EaseType).Play().SetLink(gameObject).SetAutoKill();
+                _sequence = Target.DORotate(_baseAngle, Duration, RotateType).SetEase(EaseType).Play()
+                    .SetLink(gameObject).SetAutoKill();
 
             return _sequence;
         }

@@ -6,7 +6,7 @@ public class DistanceCollider : MonoBehaviour
 {
     public bool SelfTransform = true;
 
-    [ConditionalField(nameof(SelfTransform), false)]
+    [ConditionalField(nameof(SelfTransform), true)]
     public Transform TargetTransform;
 
     public RectTransform Target;
