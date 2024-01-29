@@ -88,7 +88,7 @@ public class Lever : MonoBehaviour, IPointerDownHandler
     /// <returns></returns>
     public TweenerCore<Quaternion, Vector3, QuaternionOptions> OnGas()
     {
-        var sequence = OnRotator.Play(); 
+        var sequence = OnRotator.DoPlay(); 
         return sequence;
     }
 
@@ -98,7 +98,7 @@ public class Lever : MonoBehaviour, IPointerDownHandler
     /// <returns></returns>
     public TweenerCore<Quaternion, Vector3, QuaternionOptions> OffGas()
     {
-        var sequence = OffRotator.Play(); 
+        var sequence = OffRotator.DoPlay(); 
         return sequence;
     }
 

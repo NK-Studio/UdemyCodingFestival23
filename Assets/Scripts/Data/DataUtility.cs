@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Data
 {
-    [System.Serializable]
-    public class Fruit
+    [Serializable]
+    public class FruitElement
     {
         public EFruitType FruitType;
         public Vector3 Position;
 
-        public Fruit(EFruitType fruitType, Vector3 position)
+        public FruitElement(EFruitType fruitType, Vector3 position)
         {
             FruitType = fruitType;
             Position = position;
@@ -17,7 +17,7 @@ namespace Data
     }
 
     [Serializable]
-    public class FruitElement
+    public class FruitPrefab
     {
         public EFruitType FruitType;
         public GameObject Prefab;

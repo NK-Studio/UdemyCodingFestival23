@@ -1481,14 +1481,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dc932aa605dc4cfe99f3a97a8c1d39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetCanvas: {fileID: 304158622}
-  ItemBoxGroup: {fileID: 1845087093}
-  TriggerStickIn: {fileID: 310488186}
-  Stick: {fileID: 1686450233}
-  StarFX: {fileID: 1280805358}
+  targetCanvas: {fileID: 304158622}
+  itemBoxGroup: {fileID: 1845087093}
+  HintUI: {fileID: 310488186}
+  stick: {fileID: 1686450233}
+  starGroup: {fileID: 1280805358}
   fruits:
   - FruitType: 1
-    Prefab: {fileID: 2107046832230281222, guid: 5baf6080e6c936c448a94aec360a7241, type: 3}
+    Prefab: {fileID: 4850183861685528570, guid: 47c2852d6a5581c42b24b04dd349d9df, type: 3}
   - FruitType: 2
     Prefab: {fileID: 2365096407649134193, guid: 4dc37bb41c63f4fea9a8138d69f786eb, type: 3}
   - FruitType: 3
@@ -2680,6 +2680,10 @@ PrefabInstance:
       value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 3704696027734386054, guid: 27550226c2c6bc74db0d996fe1ab015d, type: 3}
+      propertyPath: m_Name
+      value: Stop-Point
+      objectReference: {fileID: 0}
+    - target: {fileID: 3704696027734386054, guid: 27550226c2c6bc74db0d996fe1ab015d, type: 3}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
@@ -2718,6 +2722,10 @@ PrefabInstance:
     - target: {fileID: 6895096203933711871, guid: 27550226c2c6bc74db0d996fe1ab015d, type: 3}
       propertyPath: m_Size.y
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7664187197248047255, guid: 27550226c2c6bc74db0d996fe1ab015d, type: 3}
+      propertyPath: m_Name
+      value: Start-Point
       objectReference: {fileID: 0}
     - target: {fileID: 8399369480931407924, guid: 27550226c2c6bc74db0d996fe1ab015d, type: 3}
       propertyPath: m_Pivot.x

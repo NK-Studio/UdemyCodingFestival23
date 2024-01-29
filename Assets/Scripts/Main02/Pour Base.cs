@@ -94,7 +94,7 @@ namespace NKStudio
                 return;
             
             // 애니메이션을 재생합니다.
-            Rotate.Play();
+            Rotate.DoPlay();
             Bounds.Pause();
             
             // 스케일을 원래대로 돌립니다.
@@ -110,7 +110,7 @@ namespace NKStudio
                 return;
 
             // 애니메이션을 역재생합니다.
-            Rotate.Reverse(); // 애니메이션을 역재생합니다.
+            Rotate.DoReverse(); // 애니메이션을 역재생합니다.
             Bounds.Play(); // 바운스 애니메이션 재생
             
             // 설탕 붓는 연출 초기화

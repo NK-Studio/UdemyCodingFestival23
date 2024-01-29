@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private InputAction back;
 
     [ArrayElementTitle("FruitType")]
-    public List<Fruit> Fruits = new();
+    public List<FruitElement> Fruits = new();
     
     private void Start()
     {

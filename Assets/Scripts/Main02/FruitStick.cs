@@ -16,10 +16,10 @@ public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [Header("애니메이션 커브")] public AnimationCurve UpDownCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
     [Header("릴리즈")] [ArrayElementTitle("FruitType")]
-    public FruitElement[] fruitElements;
+    public FruitPrefab[] fruitElements;
 
     [Header("디버그")] [ArrayElementTitle("FruitType")]
-    public List<Fruit> testFruit;
+    public List<FruitElement> testFruit;
 
     // 설탕이 코팅되는 수준을 0~1로 처리
     private float _allCoatingAmount = 0f;
@@ -69,11 +69,11 @@ public class FruitStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             Assert.IsNotNull(Stick, "Stick is null");
 
         // 과일을 생성한다.
-        foreach (Fruit fruit in fruits.AsEnumerable().Reverse())
+        foreach (FruitElement fruit in fruits.AsEnumerable().Reverse())
         {
-            FruitElement fruitElement = fruitElements.First(element => element.FruitType == fruit.FruitType);
+            FruitPrefab fruitPrefab = fruitElements.First(element => element.FruitType == fruit.FruitType);
 
-            GameObject fruitObject = Instantiate(fruitElement.Prefab, Stick);
+            GameObject fruitObject = Instantiate(fruitPrefab.Prefab, Stick);
             fruitObject.transform.rotation = Quaternion.identity;
             fruitObject.transform.localPosition = fruit.Position;
         }
